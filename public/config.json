@@ -1,0 +1,22 @@
+{
+    "CONTRACT_ABI": [],
+    "CONTRACT_ADDRESS": "0xd00d42FDA98e968d8EF446a7f8808103fA1b3fD6",
+    "GAMES": [
+      { "name": "Blackjack", "image": "./images/gameImages/game1.png" },
+      { "name": "Plinko", "image": "./images/gameImages/game2.png" },
+      { "name": "Roulette", "image": "./images/gameImages/game3.png" },
+      { "name": "1000x", "image": "./images/gameImages/game4.png" },
+      { "name": "Poker", "image": "./images/gameImages/game5.png" },
+      { "name": "Craps", "image": "./images/gameImages/game6.png" },
+      { "name": "Slots", "image": "./images/gameImages/game7.png" },
+      { "name": "Keno", "image": "./images/gameImages/game8.png" },
+      { "name": "Coinflip", "image": "./images/gameImages/game9.png" },
+      { "name": "Rocket", "image": "./images/gameImages/game10.png" }
+    ],
+    "SELECTED_GAMES_INDEXES": [1, 5, 7],
+    "TOTAL_POT": 50,
+    "TWITTER_LINK": "https://twitter.com/degenhedge_fund",
+    "TG_LINK": "",
+    "BASE_URL": "https://degenhedge.fund"
+  }
+  

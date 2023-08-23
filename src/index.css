@@ -1,0 +1,550 @@
+@import 'bootstrap/dist/css/bootstrap.min.css';
+@import url('https://fonts.googleapis.com/css2?family=Press Start 2P&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+@keyframes scrollBg {
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: 0 -626px;  /* Adjust this value depending on the speed and direction you want */
+  }
+}
+
+@keyframes slide {
+  from {
+      right: -100%;
+  }
+  to {
+      right: 100%;
+  }
+}
+
+.App {
+  position: relative;
+  min-height: 100vh; /* Ensure it at least takes up the full height of the viewport */
+  overflow-x: hidden;
+}
+
+.App-content{
+  position: relative;
+}
+
+.pepeContainer {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    z-index: -1;
+}
+
+body {
+  font-family: 'Press Start 2P', sans-serif;
+  background-color: #2a002a;
+  color: #FFD700;
+  background-repeat: repeat;
+  animation: scrollBg 20s linear infinite;
+}
+
+.banner {
+  display: flex;
+  align-items: center; 
+  justify-content:space-between;
+  width: 100vw; 
+  background-color: #333333d9;
+  padding: 5vw;
+  height: 20vh;
+  flex-direction: row; 
+}
+
+.banner-logo {
+  height: 10vw; 
+  margin-right: 5px; 
+}
+
+/* Buttons */
+.btn-primary {
+  background: linear-gradient(to bottom, #D4AF37, #FFD700);
+  border: none;
+  box-shadow: 2px 2px 8px rgba(0,0,0,0.4);
+  font-family: 'Press Start 2P', sans-serif;
+  text-shadow: 1px 1px 2px #000;
+  transition: all 0.3s;
+  color: rgb(23, 2, 2);
+  border-radius: 5%;
+  border-radius: 15px;
+  overflow: hidden;
+}
+
+.btn-claim {
+  background: linear-gradient(to bottom, #D4AF37, #FFD700);
+  border: none;
+  box-shadow: 2px 2px 8px rgba(0,0,0,0.4);
+  font-family: 'Press Start 2P', sans-serif;
+  text-shadow: 1px 1px 2px #000;
+  transition: all 0.3s;
+  color: rgb(23, 2, 2);
+  border-radius: 15px;
+  overflow: hidden;
+  padding: 20px 40px; 
+  font-size: 18px; 
+  margin: 10% auto -1% auto;
+}
+
+
+.btn-primary, .btn-claim:hover {
+  background: linear-gradient(to bottom, #FFD700, #D4AF37);
+  box-shadow: 1px 1px 6px rgba(0,0,0,0.4);
+}
+
+.btn-link, .connect-button {
+  background: linear-gradient(to bottom, #D4AF37, #FFD700);
+  border: none;
+  box-shadow: 2px 2px 8px rgba(0,0,0,0.4);
+  font-family: 'Press Start 2P', sans-serif;
+  text-shadow: 1px 1px 2px #000;
+  transition: all 0.3s;
+  color: rgb(23, 2, 2);
+  border-radius: 15px;
+  overflow: hidden;
+  padding: 10px 20px; 
+  margin: 0 5px; 
+  text-decoration: none; 
+}
+
+.connect-button {
+  margin: 0; 
+}
+
+.connect-button:hover {
+  background: linear-gradient(to bottom, #D4AF37, #FFD700);
+  border: none;
+  box-shadow: 2px 2px 8px rgba(0,0,0,0.4);
+  font-family: 'Press Start 2P', sans-serif;
+  text-shadow: 1px 1px 2px #000;
+  transition: all 0.3s;
+  color: rgb(23, 2, 2);
+  border-radius: 5%;
+  border-radius: 15px;
+  overflow: hidden;
+}
+
+.sound-btn {
+  background: linear-gradient(to bottom, #D4AF37, #FFD700);
+  border: none;
+  box-shadow: 2px 2px 8px rgba(0,0,0,0.4);
+  font-family: 'Press Start 2P', sans-serif;
+  text-shadow: 1px 1px 2px #000;
+  transition: all 0.3s;
+  color: rgb(23, 2, 2);
+  display: flex;
+}
+
+.sound-btn:hover {
+  background: linear-gradient(to bottom, #FFD700, #D4AF37);
+  box-shadow: 1px 1px 6px rgba(0,0,0,0.4);
+}
+
+.code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+  background-color: #400040;
+  color: #FFD700;
+  padding: 5px;
+  border-radius: 5px;
+  border: 1px solid #FFD700;
+}
+
+.rounded-box {
+  background-color: #000000a5;
+  border-radius: 10px;
+  padding: 10px;
+  position: relative;
+  display: flex;
+  top: 50%;
+  z-index: 1;
+  justify-content: center;
+}
+
+.total-pot {
+  margin: 0;
+  font-size: 18px;
+  color: #FFD700;
+}
+
+.claim-container {
+  display: flex;
+  justify-content: space-between; 
+  align-items: center;
+  width: 100%;
+}
+
+.left-image,
+.right-image {
+  width: 500px; 
+  height: 500px;
+}
+
+.claim-section {
+  display: flex;
+  flex-direction: column; 
+  align-items: center; 
+  justify-content: center; 
+}
+
+.casino-sub-title {
+  text-align: center; 
+}
+
+.claim-info {
+  padding: 20px;
+  background-color: #140E10;
+  border: 1px solid #ECD93F;
+  border-radius: 30px;
+  width: 45%;
+  margin: 10% auto -12% auto;
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  justify-content: center;
+  z-index: 2;
+}
+
+
+
+
+
+.claim-item {
+  padding: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 100px;
+  border: 2px solid #FFD700;
+  text-align: center;
+  z-index: 2;
+}
+
+
+.claim-container {
+  display: flex;
+  position: relative;
+  z-index: 1;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.socials-container {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  position: absolute;
+  top: 98%;
+  left: 50%;
+  transform: translate(-50%, 0);
+  z-index: 1;
+}
+
+.social-btn {
+  display: inline-block;
+  position: relative;
+  width: 48px;
+  height: 48px;
+  text-align: center;
+  color: #ffffff;
+  text-decoration: none;
+  font-size: xx-large;
+}
+
+.chat-box {
+  height: '50vh';
+  width: '10vw';
+}
+
+.twitter-btn .fab.fa-twitter {
+  color: #1DA1F2;
+}
+
+.tg-btn .fab.fa-telegram-plane {
+  color: #0088cc;
+}
+
+.casino-title {
+  font-family: 'Press Start 2P', sans-serif;
+  font-size: 32px;
+  color: #FFD700;
+  text-shadow: 2px 2px 4px #000;
+  margin-left: 1%;
+}
+
+.casino-sub-title {
+  font-family: 'Press Start 2P', sans-serif;
+  text-align: center;
+  font-size: 48px;
+  color: #FFD700;
+  text-shadow: 2px 2px 4px #000;
+}
+
+.casino-sub-title2 {
+  font-family: 'Press Start 2P', sans-serif;
+  text-align: center;
+  font-size: 48px;
+  color: #FFD700;
+  text-shadow: 2px 2px 4px #000;
+  position: relative;
+  margin: 10% auto -5% auto;
+}
+
+@keyframes pulse {
+  0% {
+    color: #D4AF37;
+  }
+  50% {
+    color: #FFD700;
+  }
+  100% {
+    color: #D4AF37;
+  }
+}
+
+.pulse-effect {
+  animation: pulse 2s infinite;
+}
+
+.voting-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.vote-item {
+  background-color: #000000a5;
+  border-radius: 10px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 10px;
+}
+
+.game-image {
+  width: 100px;
+  height: auto;
+  margin: 10px 0;
+}
+
+
+.rounded-stream {
+  border-radius: 15px;
+  overflow: hidden;
+  height: 25vw;
+  width: 40vw;
+}
+
+.disconnect-button {
+  background-color: #f44336;
+  border: none;
+  color: white;
+  text-align: center;
+  line-height: 32px;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 12px;
+  margin: 2px;
+  cursor: pointer;
+  border-radius: 4px;
+  height: 32px;
+  font-size: medium;
+}
+
+.connected-address {
+  font-size: 12px;
+  color: #aaa;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 1000;
+}
+
+/* For tablets */
+@media (max-width: 888px) {
+  .casino-title {
+    font-family: 'Press Start 2P', sans-serif;
+    font-size: 16px;
+    color: #FFD700;
+    text-shadow: 2px 2px 4px #000;
+    margin-left: 1%;
+}
+
+.voting-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.btn-link, .connect-button {
+  background: linear-gradient(to bottom, #D4AF37, #FFD700);
+  border: none;
+  box-shadow: 2px 2px 8px rgba(0,0,0,0.4);
+  font-family: 'Press Start 2P', sans-serif;
+  text-shadow: 1px 1px 2px #000;
+  transition: all 0.3s;
+  color: rgb(23, 2, 2);
+  border-radius: 5px;
+  overflow:visible;
+  font-size: 7px;
+  text-align: center;
+  width: 80px;
+  padding: 10px;
+  line-height: 1;
+}
+
+.casino-sub-title2 {
+  font-family: 'Press Start 2P', sans-serif;
+  text-align: center;
+  font-size: 28px;
+  color: #FFD700;
+  text-shadow: 2px 2px 4px #000;
+  position: relative;
+  margin: 10% auto -5% auto;
+}
+
+.claim-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 10px;
+  background-color: #000000a5;
+  border-radius: 10px;
+  width: 50%;
+  margin: 10% auto -8% auto;
+  text-align: center;
+  position: relative;
+  z-index: 2;
+}
+
+.disconnect-button {
+  background-color: #f44336;
+  border: none;
+  color: white;
+  text-align: center;
+  line-height: 10px;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 6px;
+  margin: 2px;
+  cursor: pointer;
+  border-radius: 4px;
+  height: 10px;
+  padding: 0;
+}
+
+.connected-address {
+  font-size: 6px;
+  color: #aaa;
+  position: absolute;
+  top: 10vh;
+  right: 10px;
+  z-index: 1000;
+  top: 0px;
+}
+
+
+.rounded-stream {
+  border-radius: 5px;
+  overflow: hidden;
+  height: 100vh;
+  width: 80vw;
+  left: 10px;
+}
+}
+
+
+/* For mobile phones */
+@media (max-width: 480px) {
+  .casino-title {
+      font-family: 'Press Start 2P', sans-serif;
+      font-size: 16px;
+      color: #FFD700;
+      text-shadow: 2px 2px 4px #000;
+      margin-left: 1%;
+  }
+  .banner-logo {
+    height: 5vh;
+  }
+
+  .banner {
+    display: flex;
+    align-items: center;
+    justify-content:space-between;
+    width: 100vw;
+    background-color: #333333d9;
+    padding: 5vw;
+    height: 15vh;
+    flex-direction: row;
+  }
+
+  .social-btn {
+    display: inline-block;
+    width: 24px; 
+    height: 24px;
+    position: absolute;
+    z-index: 1000;
+    text-align: center;
+    margin-right: 0px;
+    margin-top: 0vh;
+    color: #ffffff;
+    text-decoration: none;
+    font-size: small;
+  }
+  
+  .twitter-btn {
+    top: 10px;
+    left: 0vw;
+  }
+
+  .tg-btn {
+    top: 10px;
+    left: 10vw;
+  }
+  
+
+  .connected-address {
+    font-size: 6px;
+    color: #aaa;
+    position: absolute;
+    top: 10vh;
+    right: 10px;
+    z-index: 1000;
+  }
+
+  .rounded-stream {
+    border-radius: 5px;
+    overflow: hidden;
+    height: 100vw;
+    width: 80vw;
+  }
+  .disconnect-button {
+    background-color: #f44336;
+    border: none;
+    color: white;
+    text-align: center;
+    line-height: 10px;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 6px;
+    margin: 2px;
+    cursor: pointer;
+    border-radius: 4px;
+    height: 10px;
+    padding: 0;
+  }
+  
+  
+}
+
+
+
+
