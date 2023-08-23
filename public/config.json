@@ -1,6 +1,6 @@
 {
     "CONTRACT_ABI": [],
-    "CONTRACT_ADDRESS": "0xd00d42FDA98e968d8EF446a7f8808103fA1b3fD6",
+    "CONTRACT_ADDRESS": "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
     "GAMES": [
       { "name": "Blackjack", "image": "./images/gameImages/game1.png" },
       { "name": "Plinko", "image": "./images/gameImages/game2.png" },
