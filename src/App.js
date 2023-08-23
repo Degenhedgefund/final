@@ -192,7 +192,7 @@ function App() {
           <h3 className="casino-title">Degen Hedge Fund</h3>
 
           {/* DEXscreener Link Button */}
-          <a href="https://dexscreener.com/ethereum/0x88e6a0c2ddd26feeb64f039a2c41296fcb3f5640" target="_blank" rel="noopener noreferrer" className="btn-link">
+          <a href="https://dexscreener.com/ethereum/0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2" target="_blank" rel="noopener noreferrer" className="btn-link">
               Chart
           </a>
 
