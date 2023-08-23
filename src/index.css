@@ -20,6 +20,7 @@
   }
 }
 
+
 .App {
   position: relative;
   min-height: 100vh; /* Ensure it at least takes up the full height of the viewport */
@@ -44,6 +45,7 @@ body {
   color: #FFD700;
   background-repeat: repeat;
   animation: scrollBg 20s linear infinite;
+  background-image: url('https://degenhedge.fund/images/bg.png');
 }
 
 .banner {
