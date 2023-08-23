@@ -6,7 +6,7 @@ import Web3 from 'web3';
 
 
 const CONTRACT_ABI = []; //Contract ABI
-const CONTRACT_ADDRESS = '0xd00d42FDA98e968d8EF446a7f8808103fA1b3fD6'; //Contract address
+const CONTRACT_ADDRESS = '0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2'; //Contract address
 
 
 function App() {
