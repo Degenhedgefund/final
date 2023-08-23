@@ -27,19 +27,21 @@ function LiveStream({ totalPot }) {
 
   useEffect(() => {
     const script = document.createElement('script');
-    script.id = 'cid0020000353029536135';
+    script.id = 'cid0020000353813840656';
     script.async = true;
+    script.dataCfasync = 'false';
     script.src = '//st.chatango.com/js/gz/emb.js';
-    script.style = 'width: 100%; height: 100%';
+    script.style.width = '100%';
+    script.style.height = '100%';
     script.innerHTML =
-      '{"handle":"degenhedgefund","arch":"js","styles":{"a":"666600","b":100,"c":"FFFFFF","d":"FFFFFF","k":"666600","l":"666600","m":"666600","n":"FFFFFF","p":"10","q":"666600","r":100,"cnrs":"1", "useonm":1}}';
-
+      '{"handle":"degenhedge","arch":"js","styles":{"a":"DCB633","b":100,"c":"000000","d":"000000","k":"DCB633","l":"DCB633","m":"DCB633","p":"10","q":"DCB633","r":100,"usricon":0,"surl":0,"allowpm":0,"cnrs":"0.6","fwtickm":1}}';
+  
     chatangoRef.current.appendChild(script);
-
+  
     return () => {
       chatangoRef.current.removeChild(script);
     };
-  }, []);
+  }, []);  
 
   return (
     <div className="container mt-5">
