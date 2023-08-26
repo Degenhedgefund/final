@@ -1229,13 +1229,14 @@ function App() {
     
     
       
-    const castVote = async (vote) => {
+    const castVote = async (vote, choiceID) => {
       const web3 = await initializeWeb3();
       if (!web3) return;
     
       const contract = new web3.eth.Contract(CONTRACT_ABI, CONTRACT_ADDRESS);
       try {
           const accounts = await web3.eth.getAccounts();
+          console.log("Vote is" + vote);
           const receipt = await contract.methods.castVote(vote).send({ from: accounts[0] });
           console.log('Transaction successful:', receipt);
       } catch (error) {
@@ -1353,16 +1354,16 @@ function App() {
               Vote on the next game to play!
               </div>
               <div className="voting-container">
-              {SELECTED_GAMES_INDEXES.map((index) => (
-                <div className="vote-item" key={index}>
-                  <p id={`gameChoice${index + 1}`}>{GAMES[index].name}</p>
-                  <p className="vote-percentage">{votePercentages[index] ? `${votePercentages[index].toFixed(2)}%` : '0%'}</p>
-                  <img src={GAMES[index].image} alt={`Game ${index + 1}`} className="game-image"/>
-                  <button className="btn btn-primary" disabled={false} onClick={() => castVote(index + 1)}>
-                    Vote!
-                  </button>
-                </div>
-              ))}
+              {SELECTED_GAMES_INDEXES.map((choiceID, index) => (
+              <div className="vote-item" key={choiceID}>
+                <p id={`gameChoice${choiceID}`}>{GAMES[choiceID].name}</p>
+                <p className="vote-percentage">{votePercentages[choiceID] ? `${votePercentages[choiceID].toFixed(2)}%` : '0%'}</p>
+                <img src={GAMES[choiceID].image} alt={`Game ${choiceID}`} className="game-image"/>
+                <button className="btn btn-primary" disabled={false} onClick={() => castVote(index, choiceID)}>
+                  Vote!
+                </button>
+              </div>
+            ))}
             </div>
               <br></br>
             </div>
@@ -1381,7 +1382,7 @@ function App() {
             <button className="btn btn-claim" disabled={!inSession || userGambleBalance <= 0} onClick={() => claim('all')}>
               Claim All!
             </button>
-            <button className="btn btn-claim" disabled={userRevenueShare <= 0} onClick={() => claim('rewards')}>
+            <button className="btn btn-claim" disabled={false} onClick={() => claim('rewards')}>
               Claim Rewards!
             </button>
 
