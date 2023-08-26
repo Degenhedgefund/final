@@ -981,8 +981,7 @@ const CONTRACT_ABI = [
     "stateMutability": "payable",
     "type": "receive"
   }
-]
-; //Contract ABI
+]; //Contract ABI
 const TOKEN_ABI = [  {
   "inputs": [
     {
