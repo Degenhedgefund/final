@@ -39,6 +39,14 @@
     z-index: -1;
 }
 
+.admin-buttons {
+  position: absolute;
+  bottom: -5vh;
+  left: 0;
+  width: 80%;
+  z-index: 1;
+}
+
 body {
   font-family: 'Press Start 2P', sans-serif;
   background-color: #2a002a;
