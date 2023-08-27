@@ -1015,7 +1015,26 @@ function App() {
   const [userRevenueShare, setUserRevenueShare] = useState(0);
   const [account, setAccount] = useState(null);
   const [votePercentages, setVotePercentages] = useState([]);
+  const [balanceOf, setBalanceOf] = useState(0);
+  const [gameShareOf, setGameShareOf] = useState(0);
+  const [getReward, setGetReward] = useState(0);
+  const [currentVote, setCurrentVote] = useState({});
+  const [currentGame, setCurrentGame] = useState({});
+  const [snapshot, setSnapshot] = useState({});
+  const [usersByTier, setUsersByTier] = useState([]);
+  const [totalWager, setTotalWager] = useState(0);
 
+
+
+  const formatNumber = (num) => {
+    if (parseFloat(num) === parseInt(num)) {
+      return parseInt(num).toString();
+    } else {
+      return Math.floor(num * 1000) / 1000;
+    }
+  };
+  
+  
   
       const checkInSession = async () => {
         const web3 = await initializeWeb3();
@@ -1050,7 +1069,8 @@ function App() {
         const contract = new web3.eth.Contract(TOKEN_ABI, TOKEN_ADDRESS);
         try {
           console.log(address);
-          const balance = Number(await contract.methods.balanceOf(address).call());
+          const balanceWei = await contract.methods.balanceOf(address).call();
+          const balance = web3.utils.fromWei(balanceWei.toString(), 'ether');
           return balance;
         } catch (error) {
           console.error('Error fetching user gamble balance:', error);
@@ -1064,7 +1084,8 @@ function App() {
         const contract = new web3.eth.Contract(CONTRACT_ABI, CONTRACT_ADDRESS);
         try {
           const snapshot = await contract.methods.snapshot().call();
-          const lastRevenue = snapshot.balance;
+          const lastRevenueWei = snapshot.balance;
+          const lastRevenue = web3.utils.fromWei(lastRevenueWei.toString(), 'ether');          
           console.log("Last revenue snapshot: " + lastRevenue);
           return Number(lastRevenue) || 0; // Convert to a number and use 0 if it's falsy
         } catch (error) {
@@ -1176,7 +1197,8 @@ function App() {
       const contract = new web3.eth.Contract(CONTRACT_ABI, CONTRACT_ADDRESS);
       try {
         console.log(address);
-        const revenueShare = Number(await contract.methods.balanceOf(address).call());
+        const revenueShareWei = await contract.methods.getReward(account).call();
+        const revenueShare = web3.utils.fromWei(revenueShareWei.toString(), 'ether');        
         console.log("Revenue share is:" + revenueShare);
         return revenueShare;
       } catch (error) {
@@ -1198,7 +1220,8 @@ function App() {
       try {
         // Get the balance and reward of the account
         const balanceOf = Number(await contract.methods.balanceOf(accounts[0]).call());
-        const rewardOf = Number(await contract.methods.getReward(accounts[0]).call()); // Assuming the function name is getReward
+        const rewardOf = Number(await contract.methods.getReward(accounts[0]).call());
+        console.log("Reward is:"+rewardOf)
     
         // Get the current vote and game state
         const currentVote = await contract.methods.currentVote().call();
@@ -1271,19 +1294,109 @@ function App() {
         console.error('Error fetching vote counts:', error);
       }
     };
+
+    // Fetching balanceOf from the contract
+    const getBalanceOf = async (address) => {
+      const web3 = await initializeWeb3();
+      if (!web3) return;
+
+      const contract = new web3.eth.Contract(CONTRACT_ABI, CONTRACT_ADDRESS);
+      try {
+        const balance = await contract.methods.balanceOf(address).call();
+        let formattedBalance = web3.utils.fromWei(balance.toString(), 'ether');
+        // Remove decimal if it's zero
+        if (Number(formattedBalance) === parseInt(formattedBalance)) {
+          formattedBalance = parseInt(formattedBalance).toString();
+        }
+        console.log("balanceOf is:"+formattedBalance);
+        setBalanceOf(formattedBalance);
+      } catch (error) {
+        console.error('Error fetching balanceOf:', error);
+      }
+    };
+
+      // Fetching gameShareOf from the contract
+      const getGameShareOf = async (address) => {
+        const web3 = await initializeWeb3();
+        if (!web3) return;
+
+        const contract = new web3.eth.Contract(CONTRACT_ABI, CONTRACT_ADDRESS);
+        try {
+          const gameShare = await contract.methods.gameShareOf(address).call();
+          const formattedGameShare = web3.utils.fromWei(gameShare.toString(), 'ether');
+          console.log("gameShare is:" + formattedGameShare);
+          setGameShareOf(formattedGameShare);
+        } catch (error) {
+          console.error('Error fetching gameShareOf:', error);
+        }
+      };
+
+      const getCurrentVote = async () => {
+        const web3 = await initializeWeb3();
+        if (!web3) return;
+        const contract = new web3.eth.Contract(CONTRACT_ABI, CONTRACT_ADDRESS);
+        const data = await contract.methods.currentVote().call();
+        setCurrentVote(data);
+      };
+      
+      const getCurrentGame = async () => {
+        const web3 = await initializeWeb3();
+        if (!web3) return;
+        const contract = new web3.eth.Contract(CONTRACT_ABI, CONTRACT_ADDRESS);
+        const data = await contract.methods.currentGame().call();
+        setCurrentGame(data);
+      };
+      
+      const getSnapshot = async () => {
+        const web3 = await initializeWeb3();
+        if (!web3) return;
+        const contract = new web3.eth.Contract(CONTRACT_ABI, CONTRACT_ADDRESS);
+        const data = await contract.methods.snapshot().call();
+        setSnapshot(data);
+      };
+      
+      const getUsersByTier = async () => {
+              const web3 = await initializeWeb3();
+      if (!web3) return;
+        const contract = new web3.eth.Contract(CONTRACT_ABI, CONTRACT_ADDRESS);
+        const data = await contract.methods.getUsersByTier().call();
+        setUsersByTier(data);
+      };
+
     
-    
-    
-    useEffect(() => {
-      if (!account) return; // Skip if account is not set
-    
-      getuserGambleBalance(account).then(balance => setuserGambleBalance(balance));
-      getTotalRevenue().then(revenue => setTotalRevenue(revenue));
-      getUserTier(account).then(tier => setTierLevel(tier));
-      getUserRevenueShare(account).then(share => setUserRevenueShare(share));
-      checkInSession();
-      getVotePercentages();
-    }, [account]); // Add account as a dependency
+      useEffect(() => {
+        if (!account) return; // Skip if account is not set
+      
+        // Using async function inside useEffect to handle promises
+        const fetchData = async () => {
+          const userBalance = await getuserGambleBalance(account);
+          const rev = await getTotalRevenue();
+          const tier = await getUserTier(account);
+          const share = await getUserRevenueShare(account);
+          const bal = await getBalanceOf(account);
+          const gameShare = await getGameShareOf(account);
+      
+          // Only update state if the fetched data is valid
+          if(userBalance !== undefined) setuserGambleBalance(userBalance);
+          if(rev !== undefined) setTotalRevenue(rev);
+          if(tier !== undefined) setTierLevel(tier);
+          if(share !== undefined) setUserRevenueShare(share);
+          if(bal !== undefined) setBalanceOf(bal);
+          if(gameShare !== undefined) setGameShareOf(gameShare);
+        };
+      
+        fetchData();
+      
+        checkInSession();
+        getVotePercentages();
+      
+        // Logic for total wager
+        if (!currentVote.active || !currentGame.active) {
+          setTotalWager(0);
+        } else {
+          setTotalWager(currentGame.balanceBefore);
+        }
+      }, [account, currentVote, currentGame]);
     
       
 
@@ -1306,7 +1419,15 @@ function App() {
       TG_LINK,
       BASE_URL
     } = config;
-  
+    
+    const isVoteActive = currentVote.active;
+const isGameActive = currentGame.active;
+const isWithinVotingPeriod = inSession;  
+
+// The disabled logic for each button
+const claimAllDisabled = !(isVoteActive && isWithinVotingPeriod) || (isVoteActive && isGameActive);
+const claimRewardDisabled = isVoteActive || isGameActive || userRevenueShare <= 0;
+
 
     return (
       <div className="App">
@@ -1367,22 +1488,35 @@ function App() {
             </div>
               <br></br>
             </div>
+
             <div className="claim-section">
             <div className='casino-sub-title2'>
               Claim your revenue share below!
               </div>
             <div className="claim-info">
-              <p className="claim-item">Your $GAMBLE:</p><p className="claim-item">{userGambleBalance}</p>
-              <p className="claim-item">Total Revenue:</p><p className="claim-item"> {totalRevenue}</p>
+              <p className="claim-item">Your $GAMBLE:</p><p className="claim-item">{parseFloat(userGambleBalance).toLocaleString('en-US')}</p>
+              <p className="claim-item">Last snapshot revenue:</p><p className="claim-item"> {totalRevenue}</p>
               <p className="claim-item">Tier Level:</p><p className="claim-item"> {tierLevel}</p>
-              <p className="claim-item">Your Revenue Share:</p><p className="claim-item"> {(userRevenueShare).toFixed(2)} ETH</p>
+              <p className="claim-item">Your Revenue:</p><p className="claim-item">{formatNumber(balanceOf)}</p>
+              { 
+              userRevenueShare > 0 ? (
+                  <React.Fragment>
+                    <p className="claim-item">Your Rewards:</p><p className="claim-item">{formatNumber(userRevenueShare)} ETH</p>
+                  </React.Fragment>
+                ) : (
+                  <React.Fragment>
+                    <p className="claim-item">Your Bet:</p><p className="claim-item">{formatNumber(gameShareOf)} ETH</p>
+                  </React.Fragment>
+                )
+              }
+
             </div>
             <div className="claim-container">
             <img src={`${BASE_URL}/images/frog1.png`} className="img-fluid d-none d-lg-block" alt="Left Image" />
-            <button className="btn btn-claim" disabled={!inSession || userGambleBalance <= 0} onClick={() => claim('all')}>
+            <button className="btn btn-claim" disabled={claimAllDisabled} onClick={() => claim('all')}>
               Claim All!
             </button>
-            <button className="btn btn-claim" disabled={false} onClick={() => claim('rewards')}>
+            <button className="btn btn-claim" disabled={claimRewardDisabled} onClick={() => claim('rewards')}>
               Claim Rewards!
             </button>
 
