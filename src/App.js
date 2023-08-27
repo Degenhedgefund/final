@@ -1481,9 +1481,6 @@ function App() {
         }
       };
       
-    
-      
-
     const [config, setConfig] = useState(null);
   
     useEffect(() => {
@@ -1509,9 +1506,8 @@ const isGameActive = currentGame.active;
 const isWithinVotingPeriod = inSession;  
 
 // The disabled logic for each button
-const claimAllDisabled = !(isVoteActive && isWithinVotingPeriod) || (isVoteActive && isGameActive);
+const claimAllDisabled = !(isVoteActive && !isGameActive && isWithinVotingPeriod && userRevenueShare > 0) || (isVoteActive && isGameActive);
 const claimRewardDisabled = isVoteActive || isGameActive || userRevenueShare <= 0;
-
 
     return (
       <div className="App">
@@ -1551,7 +1547,7 @@ const claimRewardDisabled = isVoteActive || isGameActive || userRevenueShare <= 
           <div className='casino-sub-title pulse-effect'>
           Ready to go ALL in?
           </div>
-          <LiveStream totalPot={TOTAL_POT}/>
+          <LiveStream totalPot={totalWager}/>
           <BackgroundMusic />
         </div>
         <div className="container mt-5">
@@ -1559,18 +1555,21 @@ const claimRewardDisabled = isVoteActive || isGameActive || userRevenueShare <= 
               Vote on the next game to play!
               </div>
               <div className="voting-container">
-              {SELECTED_GAMES_INDEXES.map((choiceID, index) => (
-              <div className="vote-item" key={choiceID}>
-                <p id={`gameChoice${choiceID}`}>{GAMES[choiceID].name}</p>
-                <p className="vote-percentage">{votePercentages[choiceID] ? `${votePercentages[choiceID].toFixed(2)}%` : '0%'}</p>
-                <img src={GAMES[choiceID].image} alt={`Game ${choiceID}`} className="game-image"/>
-                <button className="btn btn-primary" disabled={false} onClick={() => castVote(index, choiceID)}>
-                  Vote!
-                </button>
-              </div>
-            ))}
-            </div>
-              <br></br>
+  {SELECTED_GAMES_INDEXES.map((choiceID, index) => (
+    <div className="vote-item" key={choiceID}>
+      <p id={`gameChoice${choiceID}`}>{GAMES[choiceID].name}</p>
+      <p className="vote-percentage">{votePercentages[index] ? `${votePercentages[index].toFixed(2)}%` : '0%'}</p>
+      <img src={GAMES[choiceID].image} alt={`Game ${choiceID}`} className="game-image"/>
+      <button className="btn btn-primary" disabled={false} onClick={() => castVote(index, choiceID)}>
+        Vote!
+      </button>
+    </div>
+  ))}
+</div>
+  <p></p>
+<br></br>
+<p></p>
+      <small className="disclaimer">By voting you are betting your revenue ({balanceOf} ETH) and any accrued rewards ({formatNumber(userRevenueShare)} ETH) on the next game session.</small>
             </div>
 
             <div className="claim-section">
