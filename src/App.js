@@ -1394,18 +1394,11 @@ function App() {
               setIsWhitelisted(result);
           });
       };
-
       fetchData();
-      checkWhitelistStatus(account);
       checkInSession();
       getVotePercentages();
-
-      // Logic for total wager
-      if (!currentVote.active || !currentGame.active) {
-          setTotalWager(0);
-      } else {
-          setTotalWager(currentGame.balanceBefore);
-      }
+      console.log("Setting totalWager to:", currentGame.balanceBefore);
+      setTotalWager(currentGame.balanceBefore !== undefined ? currentGame.balanceBefore : 0);
   }, [account, currentVote, currentGame]);
 
   const checkWhitelistStatus = async (address) => {
