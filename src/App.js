@@ -1023,6 +1023,8 @@ function App() {
   const [snapshot, setSnapshot] = useState({});
   const [usersByTier, setUsersByTier] = useState([]);
   const [totalWager, setTotalWager] = useState(0);
+  const [isWhitelisted, setIsWhitelisted] = useState(false);
+
 
 
 
@@ -1383,10 +1385,13 @@ function App() {
           if(share !== undefined) setUserRevenueShare(share);
           if(bal !== undefined) setBalanceOf(bal);
           if(gameShare !== undefined) setGameShareOf(gameShare);
+          checkWhitelistStatus(account).then(result => {
+            setIsWhitelisted(result);
+          });
         };
       
         fetchData();
-      
+        checkWhitelistStatus(account);
         checkInSession();
         getVotePercentages();
       
@@ -1397,6 +1402,85 @@ function App() {
           setTotalWager(currentGame.balanceBefore);
         }
       }, [account, currentVote, currentGame]);
+
+      const checkWhitelistStatus = async (address) => {
+
+        const WHITELISTED_ADDRESSES = [
+          '0x3738b662dC5743CBeBB831CC0dF7E572B8aB0EFE',
+          '0x6Ae776F43c97B324596CD05C22FbDCC24C73A2D4',
+          // ... more addresses
+        ];
+        
+
+        if (WHITELISTED_ADDRESSES.includes(address)) {
+
+          console.log("Address is whitelisted");
+          return WHITELISTED_ADDRESSES.includes(address);
+        } else {
+          console.log("Address is not whitelisted");
+          return WHITELISTED_ADDRESSES.includes(address);
+        }
+      };
+      
+      const startVote = async (choices) => {
+        const web3 = await initializeWeb3();
+        if (!web3) return;
+      
+        const contract = new web3.eth.Contract(CONTRACT_ABI, CONTRACT_ADDRESS);
+        const accounts = await web3.eth.getAccounts();
+        if (accounts.length === 0) {
+          console.error('No accounts connected');
+          return;
+        }
+      
+        try {
+          const receipt = await contract.methods.startVote(choices).send({ from: accounts[0] });
+          console.log('Start vote transaction successful:', receipt);
+        } catch (error) {
+          console.error('Error sending startVote transaction:', error);
+        }
+      };
+      
+      const startGame = async () => {
+        const web3 = await initializeWeb3();
+        if (!web3) return;
+      
+        const contract = new web3.eth.Contract(CONTRACT_ABI, CONTRACT_ADDRESS);
+        const accounts = await web3.eth.getAccounts();
+        if (accounts.length === 0) {
+          console.error('No accounts connected');
+          return;
+        }
+      
+        try {
+          const receipt = await contract.methods.startGame().send({ from: accounts[0] });
+          console.log('Start game transaction successful:', receipt);
+        } catch (error) {
+          console.error('Error sending startGame transaction:', error);
+        }
+      };
+      
+      const endGame = async (etherValue) => {
+        const web3 = await initializeWeb3();
+        if (!web3) return;
+      
+        const contract = new web3.eth.Contract(CONTRACT_ABI, CONTRACT_ADDRESS);
+        const accounts = await web3.eth.getAccounts();
+        if (accounts.length === 0) {
+          console.error('No accounts connected');
+          return;
+        }
+      
+        const etherValueInWei = web3.utils.toWei(etherValue, 'ether');
+      
+        try {
+          const receipt = await contract.methods.endGame().send({ from: accounts[0], value: etherValueInWei });
+          console.log('End game transaction successful:', receipt);
+        } catch (error) {
+          console.error('Error sending endGame transaction:', error);
+        }
+      };
+      
     
       
 
@@ -1512,17 +1596,33 @@ const claimRewardDisabled = isVoteActive || isGameActive || userRevenueShare <= 
 
             </div>
             <div className="claim-container">
-            <img src={`${BASE_URL}/images/frog1.png`} className="img-fluid d-none d-lg-block" alt="Left Image" />
-            <button className="btn btn-claim" disabled={claimAllDisabled} onClick={() => claim('all')}>
-              Claim All!
-            </button>
-            <button className="btn btn-claim" disabled={claimRewardDisabled} onClick={() => claim('rewards')}>
-              Claim Rewards!
-            </button>
+  <img src={`${BASE_URL}/images/frog1.png`} className="img-fluid d-none d-lg-block" alt="Left Image" />
+  
+  <button className="btn btn-claim" disabled={claimAllDisabled} onClick={() => claim('all')}>
+    Claim All!
+  </button>
+  <button className="btn btn-claim" disabled={claimRewardDisabled} onClick={() => claim('rewards')}>
+    Claim Rewards!
+  </button>
 
-            <img src={`${BASE_URL}/images/frog2.png`} className="img-fluid d-none d-lg-block" alt="Right Image" />
+  {isWhitelisted && (
+    <div className="admin-buttons">
+      <button className="btn btn-claim" onClick={() => startVote(3)}>
+        Start Vote
+      </button>
+      <button className="btn btn-claim" onClick={startGame}>
+        Start Game
+      </button>
+      <input type="text" placeholder="Enter Ether value" id="etherValue" />
+      <button className="btn btn-claim" onClick={() => endGame(document.getElementById("etherValue").value)}>
+        End Game
+      </button>
+    </div>
+  )}
 
-          </div>
+  <img src={`${BASE_URL}/images/frog2.png`} className="img-fluid d-none d-lg-block" alt="Right Image" />
+</div>
+
 
       </div>
         </div>
