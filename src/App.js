@@ -1001,8 +1001,8 @@ const TOKEN_ABI = [  {
   "stateMutability": "view",
   "type": "function"
 },];
-const CONTRACT_ADDRESS = '0x8026Bff1F60F4d973cC0c98BC27D1b4B6AeF57b5'; //Vote Contract address
-const TOKEN_ADDRESS = '0xE07FDC18268858d7ecB6bbe5Aee1f807Fa1Ca5aA'; //Token address
+const CONTRACT_ADDRESS = '0xf01B9A42a5AbC3A9f83b361Af92460ec53835Afa'; //Vote Contract address
+const TOKEN_ADDRESS = '0xfb2c53db9140C96ef79341ef5574Efb86Fa5e90e'; //Token address
 
 function App() {
 
