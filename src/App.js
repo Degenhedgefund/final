@@ -1347,12 +1347,18 @@ function App() {
   };
 
   const getCurrentGame = async () => {
-      const web3 = await initializeWeb3();
-      if (!web3) return;
-      const contract = new web3.eth.Contract(CONTRACT_ABI, CONTRACT_ADDRESS);
-      const data = await contract.methods.currentGame().call();
-      setCurrentGame(data);
-  };
+    const web3 = await initializeWeb3();
+    if (!web3) return;
+    const contract = new web3.eth.Contract(CONTRACT_ABI, CONTRACT_ADDRESS);
+    try {
+        const data = await contract.methods.currentGame().call();
+        console.log("Fetched currentGame:", data);  // <-- Log statement here
+        setCurrentGame(data);
+    } catch (error) {
+        console.error('Error fetching currentGame:', error);
+    }
+};
+
 
   const getSnapshot = async () => {
       const web3 = await initializeWeb3();
@@ -1370,36 +1376,45 @@ function App() {
       setUsersByTier(data);
   };
 
+  const weiToEther = (wei) => {
+    return parseFloat(wei) / 10 ** 18;
+  };
 
-  useEffect(() => {
-      if (!account) return; // Skip if account is not set
+// When account changes, fetch all the related data
+useEffect(() => {
+    if (!account) return;
 
-      // Using async function inside useEffect to handle promises
-      const fetchData = async () => {
-          const userBalance = await getuserGambleBalance(account);
-          const rev = await getTotalRevenue();
-          const tier = await getUserTier(account);
-          const share = await getUserRevenueShare(account);
-          const bal = await getBalanceOf(account);
-          const gameShare = await getGameShareOf(account);
+    const fetchData = async () => {
+        const userBalance = await getuserGambleBalance(account);
+        const rev = await getTotalRevenue();
+        const tier = await getUserTier(account);
+        const share = await getUserRevenueShare(account);
+        const bal = await getBalanceOf(account);
+        const gameShare = await getGameShareOf(account);
 
-          // Only update state if the fetched data is valid
-          if (userBalance !== undefined) setuserGambleBalance(userBalance);
-          if (rev !== undefined) setTotalRevenue(rev);
-          if (tier !== undefined) setTierLevel(tier);
-          if (share !== undefined) setUserRevenueShare(share);
-          if (bal !== undefined) setBalanceOf(bal);
-          if (gameShare !== undefined) setGameShareOf(gameShare);
-          checkWhitelistStatus(account).then(result => {
-              setIsWhitelisted(result);
-          });
-      };
-      fetchData();
-      checkInSession();
-      getVotePercentages();
-      console.log("Setting totalWager to:", currentGame.balanceBefore);
-      setTotalWager(currentGame.balanceBefore !== undefined ? currentGame.balanceBefore : 0);
-  }, [account, currentVote, currentGame]);
+        if (userBalance !== undefined) setuserGambleBalance(userBalance);
+        if (rev !== undefined) setTotalRevenue(rev);
+        if (tier !== undefined) setTierLevel(tier);
+        if (share !== undefined) setUserRevenueShare(share);
+        if (bal !== undefined) setBalanceOf(bal);
+        if (gameShare !== undefined) setGameShareOf(gameShare);
+
+        checkWhitelistStatus(account).then(result => setIsWhitelisted(result));
+    };
+
+    fetchData();
+    checkInSession();
+    getVotePercentages();
+    getCurrentGame(); // Fetch current game here
+}, [account]);
+
+// When currentGame changes, update totalWager
+useEffect(() => {
+    console.log("Setting totalWager to:", currentGame && currentGame.balanceBefore);
+    setTotalWager(weiToEther(currentGame && currentGame.balanceBefore !== undefined ? currentGame.balanceBefore : 0));
+  }, [currentGame]);
+
+
 
   const checkWhitelistStatus = async (address) => {
 
