@@ -1532,7 +1532,7 @@ useEffect(() => {
   return (
     <div className="App">
       <header className="banner"> <img src={`${BASE_URL}/images/logoTransparent.png`} alt="Degen Hedge Fund Logo" className="banner-logo" />
-        <h3 className="casino-title">Degen Hedge Fund</h3> {/* DEXscreener Link Button */} <a href="https://dexscreener.com/ethereum/0x88e6a0c2ddd26feeb64f039a2c41296fcb3f5640" target="_blank" rel="noopener noreferrer" className="btn-link">
+        <h3 className="casino-title">Degen Hedge Fund</h3> {/* DEXscreener Link Button */} <a href="https://dexscreener.com/ethereum/0x32ba6f616216a1651c7b96da9029239c3044c990" target="_blank" rel="noopener noreferrer" className="btn-link">
                   Chart
               </a> {/* Documentation Link/Button */} <a href="https://docs.degenhedge.fund/" target="_blank" rel="noopener noreferrer" className="btn-link">
                   Docs
