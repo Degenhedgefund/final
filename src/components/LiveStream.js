@@ -1,11 +1,12 @@
 import React, { useEffect, useRef } from 'react';
 
 function LiveStream({ totalPot }) {
-  const chatangoRef = useRef(null);
+/*   const chatangoRef = useRef(null);
 
-  const [chatBoxStyle, setChatBoxStyle] = React.useState({ height: '60vh', width: '10vw' });
+  const [chatBoxStyle, setChatBoxStyle] = React.useState({ height: '60vh', width: '10vw' }); */
+  
 
-  useEffect(() => {
+/*   useEffect(() => {
     const updateStyles = () => {
       if (window.innerWidth <= 480) {
         setChatBoxStyle({ height: '40vh', width: '90vw' });
@@ -24,8 +25,8 @@ function LiveStream({ totalPot }) {
       window.removeEventListener('resize', updateStyles);
     };
   }, []);
-
-  useEffect(() => {
+ */
+/*   useEffect(() => {
     const script = document.createElement('script');
     script.id = 'cid0020000353813840656';
     script.async = true;
@@ -41,7 +42,7 @@ function LiveStream({ totalPot }) {
     return () => {
       chatangoRef.current.removeChild(script);
     };
-  }, []);  
+  }, []);   */
 
   return (
     <div className="container mt-5">
@@ -64,7 +65,7 @@ function LiveStream({ totalPot }) {
         </div>
         <div className="col-md-2">
           {/* Chat box (Chatango embed) */}
-          <div ref={chatangoRef} className="chat-box" style={chatBoxStyle}></div>
+{/*           <div ref={chatangoRef} className="chat-box" style={chatBoxStyle}></div> */}
         </div>
       </div>
     </div>
