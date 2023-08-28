@@ -1560,7 +1560,7 @@ useEffect(() => {
           </div> ))} </div>
         <p></p>
         <br></br>
-        <p></p> <small className="disclaimer">By voting you are betting your revenue ({balanceOf} ETH) and any accrued rewards ({formatNumber(userRevenueShare)} ETH) on the next game session.</small> </div>
+        <p></p> <small className="disclaimer">By voting you are betting your revenue ({formatNumber(balanceOf)} ETH) and any accrued rewards ({formatNumber(userRevenueShare)} ETH) on the next game session.</small> </div>
       <div className="claim-section">
         <div className='casino-sub-title2'> Claim your revenue share below! </div>
         <div className="claim-info">
