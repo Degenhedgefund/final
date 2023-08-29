@@ -1563,7 +1563,7 @@ useEffect(() => {
               </div>
               <div className="claim-container">
                 <img src={`${BASE_URL}/images/frog1.png`} className="img-fluid d-none d-lg-block" alt="Left Image" />
-                <button className="btn btn-claim" disabled={claimAllDisabled} onClick={()=> claim('all')}> Claim All! </button>
+                <button className="btn btn-claim" onClick={()=> claim('all')}> Claim All! </button>
                 <button className="btn btn-claim" disabled={claimRewardDisabled} onClick={()=> claim('rewards')}> Claim Rewards! </button>  
                 <img src={`${BASE_URL}/images/frog2.png`} className="img-fluid d-none d-lg-block" alt="Right Image" />
               </div>
