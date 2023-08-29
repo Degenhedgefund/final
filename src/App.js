@@ -1530,64 +1530,43 @@ useEffect(() => {
   const claimRewardDisabled = isVoteActive || isGameActive || userRevenueShare <= 0;
 
   return (
-    <div className="App">
-      <header className="banner"> <img src={`${BASE_URL}/images/logoTransparent.png`} alt="Degen Hedge Fund Logo" className="banner-logo" />
-        <h3 className="casino-title">Degen Hedge Fund</h3> {/* DEXscreener Link Button */} <a href="https://dexscreener.com/ethereum/0x32ba6f616216a1651c7b96da9029239c3044c990" target="_blank" rel="noopener noreferrer" className="btn-link">
-                  Chart
-              </a> {/* Documentation Link/Button */} <a href="https://docs.degenhedge.fund/" target="_blank" rel="noopener noreferrer" className="btn-link">
-                  Docs
-              </a> {account ? (
-        <div className="connected-address"> Connected to: {account ? `${account.substring(0, 4)}...${account.substring(account.length - 4)}` : ''}
-          <br />
-          <button className="disconnect-button" onClick={disconnectWallet}>Disconnect</button>
-        </div> ) : (
-        <button className="connect-button" onClick={connectToWallet}>Connect</button> )}
-        <a href={TWITTER_LINK} target="_blank" rel="noopener noreferrer" className="social-btn twitter-btn"> <i className="fab fa-twitter"></i> </a>
-        <a href={TG_LINK} target="_blank" rel="noopener noreferrer" className="social-btn tg-btn"> <i className="fab fa-telegram-plane"></i> </a>
-      </header>
-      <div className="body">
-        <br></br>
-        <div className='casino-sub-title pulse-effect'> Ready to go ALL in? </div>
-        <LiveStream totalPot={totalWager}/>
-        <BackgroundMusic /> </div>
-      <div className="container mt-5">
-        <div className='casino-sub-title'> Vote on the next game to play! </div>
-        <div className="voting-container"> {SELECTED_GAMES_INDEXES.map((choiceID, index) => (
-          <div className="vote-item" key={choiceID}>
-            <p id={`gameChoice${choiceID}`}>{GAMES[choiceID].name}</p>
-            <p className="vote-percentage">{votePercentages[index] ? `${votePercentages[index].toFixed(2)}%` : '0%'}</p> <img src={GAMES[choiceID].image} alt={`Game ${choiceID}`} className="game-image" />
-            <button className="btn btn-primary" disabled={false} onClick={()=> castVote(index, choiceID)}> Vote! </button>
-          </div> ))} </div>
-        <p></p>
-        <br></br>
-        <p></p> <small className="disclaimer">By voting you are betting your revenue ({formatNumber(balanceOf)} ETH) and any accrued rewards ({formatNumber(userRevenueShare)} ETH) on the next game session.</small> </div>
-      <div className="claim-section">
-        <div className='casino-sub-title2'> Claim your revenue share below! </div>
-        <div className="claim-info">
-          <p className="claim-item">Your $GAMBLE:</p>
-          <p className="claim-item">{parseFloat(userGambleBalance).toLocaleString('en-US')}</p>
-          <p className="claim-item">Last snapshot revenue:</p>
-          <p className="claim-item"> {totalRevenue}</p>
-          <p className="claim-item">Tier Level:</p>
-          <p className="claim-item"> {tierLevel}</p>
-          <p className="claim-item">Your Revenue:</p>
-          <p className="claim-item">{formatNumber(balanceOf)}</p> { userRevenueShare > 0 ? (
-          <React.Fragment>
-            <p className="claim-item">Your Rewards:</p>
-            <p className="claim-item">{formatNumber(userRevenueShare)} ETH</p>
-          </React.Fragment> ) : (
-          <React.Fragment>
-            <p className="claim-item">Your Bet:</p>
-            <p className="claim-item">{formatNumber(gameShareOf)} ETH</p>
-          </React.Fragment> ) } </div>
-        <div className="claim-container"> <img src={`${BASE_URL}/images/frog1.png`} className="img-fluid d-none d-lg-block" alt="Left Image" />
-          <button className="btn btn-claim" disabled={claimAllDisabled} onClick={()=> claim('all')}> Claim All! </button>
-          <button className="btn btn-claim" disabled={claimRewardDisabled} onClick={()=> claim('rewards')}> Claim Rewards! </button> {isWhitelisted && (
-          <div className="admin-buttons">
-            <button className="btn btn-claim" onClick={()=> startVote(3)}> Start Vote </button>
-            <button className="btn btn-claim" onClick={startGame}> Start Game </button>
-            <input type="text" placeholder="Enter Ether value" id="etherValue" />
-            <button className="btn btn-claim" onClick={()=> endGame(document.getElementById("etherValue").value)}> End Game </button>
-          </div> )} <img src={`${BASE_URL}/images/frog2.png`} className="img-fluid d-none d-lg-block" alt="Right Image" /> </div>
-      </div>
-    </div> ); } export default App;
+            <div className="App">
+          <header className="banner">
+            <img src={`${BASE_URL}/images/logoTransparent.png`} alt="Degen Hedge Fund Logo" className="banner-logo" />
+            <h3 className="casino-title">Degen Hedge Fund</h3> {/* DEXscreener Link Button */} <a href="https://dexscreener.com/ethereum/0x32ba6f616216a1651c7b96da9029239c3044c990" target="_blank" rel="noopener noreferrer" className="btn-link"> Chart </a> {/* Documentation Link/Button */} <a href="https://docs.degenhedge.fund/" target="_blank" rel="noopener noreferrer" className="btn-link"> Docs </a> {account ? ( <div className="connected-address"> Connected to: {account ? `${account.substring(0, 4)}...${account.substring(account.length - 4)}` : ''} <br />
+              <button className="disconnect-button" onClick={disconnectWallet}>Disconnect</button>
+            </div>) : ( <button className="connect-button" onClick={connectToWallet}>Connect</button>)} <a href={TWITTER_LINK} target="_blank" rel="noopener noreferrer" className="social-btn twitter-btn">
+              <i className="fab fa-twitter"></i>
+            </a>
+            <a href={TG_LINK} target="_blank" rel="noopener noreferrer" className="social-btn tg-btn">
+              <i className="fab fa-telegram-plane"></i>
+            </a>
+          </header>
+          <div className="container mt-5">
+            <div className="claim-section">
+              <div className='casino-sub-title2'> Claim your revenue share below! </div>
+              <div className="claim-info">
+                <p className="claim-item">Your $GAMBLE:</p>
+                <p className="claim-item">{parseFloat(userGambleBalance).toLocaleString('en-US')}</p>
+                <p className="claim-item">Last snapshot revenue:</p>
+                <p className="claim-item"> {totalRevenue}</p>
+                <p className="claim-item">Tier Level:</p>
+                <p className="claim-item"> {tierLevel}</p>
+                <p className="claim-item">Your Revenue:</p>
+                <p className="claim-item">{formatNumber(balanceOf)}</p> {userRevenueShare > 0 ? ( <React.Fragment>
+                  <p className="claim-item">Your Rewards:</p>
+                  <p className="claim-item">{formatNumber(userRevenueShare)} ETH</p>
+                </React.Fragment>) : ( <React.Fragment>
+                  <p className="claim-item">Your Bet:</p>
+                  <p className="claim-item">{formatNumber(gameShareOf)} ETH</p>
+                </React.Fragment>)}
+              </div>
+              <div className="claim-container">
+                <img src={`${BASE_URL}/images/frog1.png`} className="img-fluid d-none d-lg-block" alt="Left Image" />
+                <button className="btn btn-claim" disabled={claimAllDisabled} onClick={()=> claim('all')}> Claim All! </button>
+                <button className="btn btn-claim" disabled={claimRewardDisabled} onClick={()=> claim('rewards')}> Claim Rewards! </button>  
+                <img src={`${BASE_URL}/images/frog2.png`} className="img-fluid d-none d-lg-block" alt="Right Image" />
+              </div>
+            </div>
+          </div>
+        </div>); } export default App;
